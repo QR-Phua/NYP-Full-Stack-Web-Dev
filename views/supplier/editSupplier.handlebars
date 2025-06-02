@@ -1,0 +1,34 @@
+<h1 id="MainHeader">Inventory Management</h1>
+{{>_invnavbar}}
+<div class="row">
+	<div class="col-md-6 mx-auto">
+		<div class="card card-body">
+			<img class="logo" src="/img/Supplier.png">
+			<h3 class="text-center">Edit Supplier</h3>
+			<form method="get" action="/supplier/editingSupplier"> 
+				<div class="form-group">
+					<label for="supnameDD">Supplier Name</label>
+					<select name="supnameDD" id="supnameDD" class="form-control"  value="{{supnameDD}}" required>
+						{{#each suppliers}}
+  							<option value="{{id}}">{{supname}}</option>
+  						{{/each}}
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<style>
+#MainHeader{
+    text-align: center;
+}
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0px 14px 28px 0px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 10px;
+    /* 5px rounded corners */
+}
+</style>

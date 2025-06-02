@@ -1,0 +1,47 @@
+<h1 id="MainHeader">Inventory Management</h1>
+<h5 id="breadcrumb">Staff>Stock>Product</h5>
+{{>_invnavbar}}
+ {{#if products}}
+
+  <table class="table table-bordered">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Supply Cost</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each products}}
+      <tr>
+        <td>{{id}}</td>
+        <td><img height="50" class="img-responsive" src="/{{image}}" alt=""></td>
+        <td>{{prodName}}</td>
+        <td>{{supplyCost}}</td>
+        <td>{{prodQuantity}}</td>
+        <td>
+          <a href="/stock/addmoreprodstk/{{id}}" class="card-link">
+            <i class="fas fa-plus"></i> Add More Units
+          </a>
+        </td>
+      </tr>
+
+      {{/each}}
+    </tbody>
+
+  </table>
+{{else}}
+<h2>No products</h2>
+{{/if}}
+
+<style>
+#MainHeader{
+  text-align: center;
+  text-decoration: underline;
+}
+</style>

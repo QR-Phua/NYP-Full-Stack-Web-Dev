@@ -1,0 +1,270 @@
+<style>
+    .card {
+        /* Add shadows to create the "card" effect */
+        box-shadow: 0px 14px 28px 0px rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        border-radius: 15px;
+        width: 400px;
+        /* 5px rounded corners */
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var emptyStringPattern = /([^\s])/;
+        var valid_Text_Pattern = /^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/;
+
+        $('#btn_Deactivate').click(function () {
+            $.post("/promo/update_Promo_Details",
+                {
+                    'action': 'deactivate',
+                    'number': $('#btn_Deactivate').attr('specificNo')
+                }, function (response) { // success handler
+                    window.location.replace('/promo/update_Promo/' + $('#btn_Deactivate').attr('specificNo'));
+                });
+
+        });
+
+        $('#btn_Delete').click(function () {
+
+            $.post("/promo/update_Promo_Details",
+                {
+                    'action': 'delete',
+                    'number': $('#btn_Delete').attr('specificNo')
+                }, function (response) { // success handler
+                    window.location.replace('/promo/all_Promos');
+                });
+
+        });
+
+        $('#btn_Activate').click(function () {
+
+            $.post("/promo/update_Promo_Details",
+                {
+                    'action': 'activate',
+                    'number': $('#btn_Activate').attr('specificNo')
+                }, function (response) { // success handler
+                    window.location.replace('/promo/update_Promo/' + $('#btn_Activate').attr('specificNo'));
+                });
+
+        });
+
+        var description = false;
+
+        $("textarea[name='description']").on('input', function () {
+
+            if ($("textarea[name='description']").val().trim().length < 1 || !(emptyStringPattern.test($("textarea[name='description']").val().trim()))) {
+                description = false;
+                console.log(description);
+                $("label[name='description_Warning']").html('Please enter a description').css('visibility', 'visible');
+
+            } else {
+                if (valid_Text_Pattern.test($("textarea[name='description']").val().trim())) {
+                    description = true;
+
+                    $("label[name='description_Warning']").html('Please enter a description').css('visibility', 'hidden');
+                }
+            }
+        });
+
+        $('#btn_Update_Description').click(function () {
+            if (description) {
+                $.post("/promo/update_Promo_Details",
+                    {
+                        'action': 'update_Description',
+                        'number': $('#btn_Update_Description').attr('specificNo'),
+                        'description': $("textarea[name='description']").val().trim()
+                    }, function (response) { // success handler
+                        $('#info_Description').text($("textarea[name='description']").val().trim());
+                        $("textarea[name='description']").text($("textarea[name='description']").val().trim());
+                        alert("Description updated successfully");
+                        $('#exampleModal2').modal('hide');
+
+                    });
+            }
+
+        });
+
+    });
+</script>
+
+<section>
+
+    <div class="row pb-5 pt-5 ml-1">
+        <div>
+            <h1 class="h1">Details of promotional code</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="col">
+
+                    <div class="row ml-1">
+                        <!-- Input -->
+                        <div class="mb-3">
+                            <h4>Promotional Code: {{result.code}}</h4>
+                        </div>
+                        <!-- End Input -->
+
+                    </div>
+                    <div class="row ml-1">
+
+                        <!-- Input -->
+                        <div class="mb-3">
+                            <h5>Discount %: {{result.discount}}</h5>
+                        </div>
+                        <!-- End Input -->
+
+                    </div>
+                    <div class="row ml-1">
+
+                        <!-- Input -->
+                        <div class="mb-3">
+                            <h5>Status: {{result.status}}</h5>
+                        </div>
+                        <!-- End Input -->
+
+                    </div>
+
+                    <div class="row ml-1">
+
+                        <!-- Input -->
+                        <div class="mb-1">
+                            <h5>Targeted Users: {{result.target}}</h5>
+                        </div>
+                        <!-- End Input -->
+
+                    </div>
+                    <hr>
+                    <div class="row ml-1">
+
+                        <!-- Input -->
+                        <div class="mt-2">
+                            <h5 id="info_Description">Description: {{result.description}}</h5>
+                        </div>
+                        <!-- End Input -->
+
+                    </div>
+
+                    <hr>
+                    <div class="row ml-1">
+
+                        <!-- Input -->
+                        <div class="mt-2">
+                            <h5>Number of usage: {{use_Count}}</h5>
+                        </div>
+                        <!-- End Input -->
+
+                    </div>
+                    <hr class="mb-4">
+
+
+                    <div class="row mt-1">
+                        <div class="col">
+                            <btn class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2"
+                                style="width: 100%">Update Description</btn>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-1">
+                        {{#if active}}
+                        <div class="col-lg-6 mt-1">
+                            <btn class="btn btn-warning" id="btn_Deactivate" specificNo="{{result.id}}"
+                                style="width: 100%">Deactivate Code
+                            </btn>
+                        </div>
+                        {{else}}
+                        <div class="col-lg-6 mt-1">
+                            <btn class="btn btn-success" id="btn_Activate" specificNo="{{result.id}}"
+                                style="width: 100%">Activate Code
+                            </btn>
+                        </div>
+                        {{/if}}
+                        <div class="col-lg-6 mt-1">
+                            <btn class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"
+                                style="width: 100%">Delete Code</btn>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+    <div class="row mt-3 ml-1">
+        <a class="d-block mb-3 mb-sm-0" href="/promo/all_Promos">
+            <span class="fa fa-arrow-left mr-2"></span>
+            Back to all promos
+        </a>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Promotional Code</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Please note that this DELETE is PERMANENT</h6>
+                    <br>
+                    <h6>Delete?</h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="btn_Delete" specificNo="{{result.id}}" class="btn btn-danger">Delete
+                        Code</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2">Update Description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Description of promotional code for customers</h6>
+                    <br>
+                    <div class="mb-2">
+
+                        <div class="input-group form">
+                            <textarea class="form-control form__input" rows="4" cols="50" name="description"
+                                aria-label="description">{{result.description}}</textarea>
+                        </div>
+
+                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                            name="description_Warning">
+                            Please enter a description
+                        </label>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="btn_Update_Description" specificNo="{{result.id}}"
+                        class="btn btn-primary">Update
+                        Description</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

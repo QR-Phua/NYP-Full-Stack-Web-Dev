@@ -1,0 +1,401 @@
+<h1 id="MainHeader">Inventory Management</h1>
+<h2 id="Sum">Offer Summary</h2>
+<h5 id="breadcrumb">Staff>Offer>Normal</h5>
+{{>_invnavbar}}
+<div class="tabbed round">
+  <ul>
+    <li class="active"><a class="stretched-link" href="/transaction/viewTransaction">Normal Offers</a></li>
+    <li><a class="stretched-link" href="/deal/viewDeal">Special Offers</a></li>
+  </ul>
+</div>
+<div id="tabcontent1">
+	<h3 class="text-primary">Normal Offers</h3>
+    <table id="OfferTable">
+		{{#if transactions}}
+			<tr>
+				<th onclick="sortTable(0)">Supplier<span id="desc0"><i class="fas fa-caret-down"></i></span><span id="asc0"><i class="fas fa-caret-up"></i></span></th>
+				<th onclick="sortTable(1)">Price (SGD) $<span id="desc1"><i class="fas fa-caret-down"></i></span><span id="asc1"><i class="fas fa-caret-up"></i></span></th>
+				<th onclick="sortTable(2)">Last Updated<span id="desc2"><i class="fas fa-caret-down"></i></span><span id="asc2"><i class="fas fa-caret-up"></i></span></th>
+				<th>Buy</th>
+			</tr>
+			{{#each transactions}}
+			<tr>
+				<td>{{supname}}</td>
+				<td>{{sgdprice}}</td>
+				<td>{{formatDate supdate 'DD MMM YYYY'}}</td>
+				<td>
+					<a href="/invpayment/normaldealamt/{{id}}" class="card-link" data-toggle="confirmation" data-title="Accept Deal?">
+						<i class="fas fa-donate"></i>
+							Buy
+					</a>
+				</td>
+			</tr>
+			{{/each}}						
+		</table>
+		{{else}}
+			<h3>No Normal Offers</h3>
+		{{/if}}
+<style>
+	/* Sort Table */
+	#MainHeader{
+		text-align: center;
+		text-decoration: underline;
+	}
+	#Sum{
+		text-align: center;
+	}
+	#asc0{
+		color: black;
+	}
+	#asc1, #asc2, #desc0, #desc1, #desc2{
+		color: #c0c0c0;
+	}
+	#OfferTable, td, th {
+		border: 1px solid black
+	}
+	#OfferTable{
+		border-collapse: collapse;
+		background-color: white;
+		width: 100%;
+	}
+	tr:nth-child(even) {background-color: #f2f2f2;}
+	#TabContentImg{
+		margin-left: 100px;
+		margin-top: 10px;
+		width:60%;
+	}
+	/* Tabbed Styles */
+	.tabbed {
+	width: 80%;
+	min-width: 400px;
+	margin: 0 auto;
+	margin-bottom: 68px;
+	border-bottom: 4px solid #000;
+	overflow: hidden;
+	transition: border 250ms ease;
+	}
+	.tabbed ul {
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	float: left;
+	padding-left: 48px;
+	list-style-type: none;
+	}
+	.tabbed ul * {
+	margin: 0px;
+	padding: 0px;
+	}
+	.tabbed ul li {
+	display: block;
+	float: right;
+	padding: 10px 24px 8px;
+	background-color: #FFF;
+	margin-right: 46px;
+	z-index: 2;
+	position: relative;
+	cursor: pointer;
+	color: #777;
+
+	text-transform: uppercase;
+	font: 600 13px/20px roboto, "Open Sans", Helvetica, sans-serif;
+
+	transition: all 250ms ease;
+	}
+	.tabbed ul li a{
+		color: #777;
+		text-decoration: none;
+	}
+	.tabbed ul li.active a {
+		color: #fff;
+		text-decoration: none;
+	}
+	.tabbed ul li:hover{
+		color: #fff;
+		background-color: black;
+	}
+	.tabbed ul li:before,
+	.tabbed ul li:after {
+	display: block;
+	content: " ";
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 44px;  
+	background-color: #FFF;
+	transition: all 250ms ease;
+	}
+	.tabbed ul li:before {
+	right: -24px;
+	transform: skew(30deg, 0deg);
+	box-shadow: rgba(0,0,0,.1) 3px 2px 5px, inset rgba(255,255,255,.09) -1px 0;
+	}
+	.tabbed ul li:after {
+	left: -24px;
+	transform: skew(-30deg, 0deg);
+	box-shadow: rgba(0,0,0,.1) -3px 2px 5px, inset rgba(255,255,255,.09) 1px 0;
+	}
+	.tabbed ul li:hover,
+	.tabbed ul li:hover:before,
+	.tabbed ul li:hover:after {
+	background-color: #F4F7F9;
+	color: #444;
+	}
+	.tabbed ul li.active {
+	z-index: 3;
+	}
+	.tabbed ul li.active,
+	.tabbed ul li.active:before,
+	.tabbed ul li.active:after {
+	background-color: #000;
+	color: #fff;
+	}
+
+	/* Round Tabs */
+	.tabbed.round ul li {
+	border-radius: 8px 8px 0 0;
+	}
+	.tabbed.round ul li:before {
+	border-radius: 0 8px 0 0;
+	}
+	.tabbed.round ul li:after {
+	border-radius: 8px 0 0 0;
+	}
+
+	/* Skins */
+	.tabbed[class*="skin-"] ul li {
+	color: #FFF;
+	text-shadow: rgba(0,0,0,.1) 0 1px;
+	}
+
+	a.iprodev {
+	line-height: normal;
+	font-family: Varela Round, sans-serif;
+	font-weight: 600;
+	text-decoration: none;
+	font-size: 13px;
+	color: #A7AAAE;
+	position: fixed;
+	left: 20px;
+	bottom: 20px;
+	border: 1px solid #A7AAAE;
+	padding: 12px 20px 10px;
+	border-radius: 50px;
+	transition: all .1s ease-in-out;
+	text-transform: uppercase;
+	}
+	a.iprodev:hover {
+	background: #A7AAAE;
+	color: white;
+	}
+</style>
+<script>
+
+	function sortTable(n) {
+			var table, rows, switching, i, x, y, shouldSwitch, dir, mnthindex, mnthindey, switchcount = 0;
+			var mnth = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+			table = document.getElementById("OfferTable");
+			switching = true;
+			//Set the sorting direction to ascending:
+			dir = "asc"; 
+			/*Make a loop that will continue until
+			no switching has been done:*/
+			while (switching) {
+				//start by saying: no switching is done:
+				switching = false;
+				rows = table.rows;
+				/*Loop through all table rows (except the
+				first, which contains table headers):*/
+				for (i = 1; i < (rows.length - 1); i++) {
+					//start by saying there should be no switching:
+					shouldSwitch = false;
+					/*Get the two elements you want to compare,
+					one from current row and one from the next:*/
+					x = rows[i].getElementsByTagName("TD")[n];
+					y = rows[i + 1].getElementsByTagName("TD")[n];
+					/*if (n == 1 || n == 3){
+						x = x.substring(1);
+						y = y.substring(1);
+					}*/
+					/*check if the two rows should switch place,
+					based on the direction, asc or desc:*/
+					if (dir == "asc") {
+							if (n == 1){
+									document.getElementById("asc0").style.color = "#c0c0c0";
+									document.getElementById("asc1").style.color = "black";
+									document.getElementById("asc2").style.color = "#c0c0c0";
+									document.getElementById("desc0").style.color = "#c0c0c0";
+									document.getElementById("desc1").style.color = "#c0c0c0";
+									document.getElementById("desc2").style.color = "#c0c0c0";
+								
+								if (Number(x.innerHTML) > Number(y.innerHTML)) {
+									//if so, mark as a switch and break the loop:
+									shouldSwitch = true;
+									break;
+								}
+							} else if (n == 2){
+								document.getElementById("asc0").style.color = "#c0c0c0";
+								document.getElementById("asc1").style.color = "#c0c0c0";
+								document.getElementById("asc2").style.color = "black";
+								document.getElementById("desc0").style.color = "#c0c0c0";
+								document.getElementById("desc1").style.color = "#c0c0c0";
+								document.getElementById("desc2").style.color = "#c0c0c0";
+								var datelistx = x.innerText.split(" ");
+								for(var j = 0;j < mnth.length; j++){
+									if(datelistx[1] == mnth[j]){
+										datelistx[1] = mnth.indexOf(mnth[j])+1;
+									}
+								}
+								if(Number(datelistx[1])<10){
+									datelistx[1] = '0'+datelistx[1];
+								}
+								var formattedDatex = datelistx[2] + datelistx[1] + datelistx[0];
+								
+								var datelisty = y.innerText.split(" ");
+								for(var k = 0;k < mnth.length; k++){
+									if(datelisty[1] == mnth[k]){
+										datelisty[1] = mnth.indexOf(mnth[k])+1;
+									}
+								}
+								if(Number(datelisty[1])<10){
+									datelisty[1] = '0'+datelisty[1];
+								}
+								var formattedDatey = datelisty[2] + datelisty[1] + datelisty[0];
+
+								if (formattedDatex > formattedDatey) {
+									// If so, mark as a switch and break the loop:
+									shouldSwitch = true;
+									break;
+								}
+							} else if (n == 0){
+								document.getElementById("asc0").style.color = "black";
+								document.getElementById("asc1").style.color = "#c0c0c0";
+								document.getElementById("asc2").style.color = "#c0c0c0";
+								document.getElementById("desc0").style.color = "#c0c0c0";
+								document.getElementById("desc1").style.color = "#c0c0c0";
+								document.getElementById("desc2").style.color = "#c0c0c0";
+								if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+									// If so, mark as a switch and break the loop:
+									shouldSwitch = true;
+									break;
+								}
+							}
+					} else if (dir == "desc") {				
+							if (n == 1 ){
+									document.getElementById("asc0").style.color = "#c0c0c0";
+									document.getElementById("asc1").style.color = "#c0c0c0";
+									document.getElementById("asc2").style.color = "#c0c0c0";
+									document.getElementById("desc0").style.color = "#c0c0c0";
+									document.getElementById("desc1").style.color = "black";
+									document.getElementById("desc2").style.color = "#c0c0c0";
+								if (Number(x.innerHTML) < Number(y.innerHTML)) {
+									//if so, mark as a switch and break the loop:
+									shouldSwitch = true;
+									break;
+								}
+							} else if (n == 2){
+								document.getElementById("asc0").style.color = "#c0c0c0";
+								document.getElementById("asc1").style.color = "#c0c0c0";
+								document.getElementById("asc2").style.color = "#c0c0c0";
+								document.getElementById("desc0").style.color = "#c0c0c0";
+								document.getElementById("desc1").style.color = "#c0c0c0";
+								document.getElementById("desc2").style.color = "black";
+								var datelistx = x.innerText.split(" ");
+								for(var j = 0;j < mnth.length; j++){
+									if(datelistx[1] == mnth[j]){
+										datelistx[1] = mnth.indexOf(mnth[j])+1;
+									}
+								}
+								if(Number(datelistx[1])<10){
+									datelistx[1] = '0'+datelistx[1];
+								}
+								var formattedDatex = datelistx[2] + datelistx[1] + datelistx[0];
+								
+								var datelisty = y.innerText.split(" ");
+								for(var k = 0;k < mnth.length; k++){
+									if(datelisty[1] == mnth[k]){
+										datelisty[1] = mnth.indexOf(mnth[k])+1;
+									}
+								}
+								if(Number(datelisty[1])<10){
+									datelisty[1] = '0'+datelisty[1];
+								}
+								var formattedDatey = datelisty[2] + datelisty[1] + datelisty[0];
+
+								if (formattedDatex < formattedDatey) {
+									// If so, mark as a switch and break the loop:
+									shouldSwitch = true;
+									break;
+								}
+							} else if (n == 0){
+								document.getElementById("asc0").style.color = "#c0c0c0";
+								document.getElementById("asc1").style.color = "#c0c0c0";
+								document.getElementById("asc2").style.color = "#c0c0c0";
+								document.getElementById("desc0").style.color = "black";
+								document.getElementById("desc1").style.color = "#c0c0c0";
+								document.getElementById("desc2").style.color = "#c0c0c0";
+								if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+									// If so, mark as a switch and break the loop:
+									shouldSwitch = true;
+									break;
+								}
+							}
+					}
+				}
+				if (shouldSwitch) {
+					/*If a switch has been marked, make the switch
+					and mark that a switch has been done:*/
+					rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+					switching = true;
+					//Each time a switch is done, increase this count by 1:
+					switchcount ++;      
+				} else {
+					/*If no switching has been done AND the direction is "asc",
+					set the direction to "desc" and run the while loop again.*/
+					if (switchcount == 0 && dir == "asc") {
+						dir = "desc";
+						switching = true;
+					}
+				}
+			}
+		}
+	document.addEventListener("DOMContentLoaded", function() {
+	var tabs = document.querySelectorAll('.tabbed li');
+	var switchers = document.querySelectorAll('.switcher-box a');
+	var skinable = document.getElementById('skinable');
+
+	for (var i = 0, len = tabs.length; i < len; i++) {
+		tabs[i].addEventListener("click", function() {
+		if (this.classList.contains('active'))
+			return;
+
+		var parent = this.parentNode,
+			innerTabs = parent.querySelectorAll('li');
+
+		for (var index = 0, iLen = innerTabs.length; index < iLen; index++) {
+			innerTabs[index].classList.remove('active');
+		}
+
+		this.classList.add('active');
+		});
+	}
+
+	for (var i = 0, len = switchers.length; i < len; i++) {
+		switchers[i].addEventListener("click", function() {
+		if (this.classList.contains('active'))
+			return;
+
+		var parent = this.parentNode,
+			innerSwitchers = parent.querySelectorAll('a'),
+			skinName = this.getAttribute('skin');
+
+		for (var index = 0, iLen = innerSwitchers.length; index < iLen; index++) {
+			innerSwitchers[index].classList.remove('active');
+		}
+
+		this.classList.add('active');
+		skinable.className = 'tabbed round ' + skinName;
+		});
+	}
+	});
+</script>

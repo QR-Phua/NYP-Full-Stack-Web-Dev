@@ -1,0 +1,97 @@
+<h1 id="MainHeader">Inventory Management</h1>
+<h5 id="breadcrumb">Staff>Supplier>Add Supplier</h5>
+{{>_invnavbar}}
+<div class="row">
+	<div class="col-md-6 mx-auto">
+		<div class="card card-body">
+			<img class="logo" src="/img/Supplier.png">
+			<h3 class="text-center">Add New Supplier</h3>
+			<form method="post" action="/supplier/addSupplier" enctype="multipart/form-data"> 
+				<div class="form-group">
+					<label for="SupplierImg">Image URL</label>
+					<input type="file" class="form-control" name="SupplierImg">
+				</div>
+				<div class="form-group">
+					<label for="supname">Company Name</label>
+					<input type="text" name="supname" class="form-control" value="{{supname}}" required>
+				</div>
+				<div class="form-group">
+					<label for="supcontactname">Contact Name</label>
+					<input type="text" name="supcontactname" class="form-control" value="{{supcontactname}}" required>
+				</div>
+				<div class="form-group">
+					<label for="supemail">Email</label>
+					<input type="text" name="supemail" class="form-control" value="{{supemail}}" required>
+				</div>
+				<div class="form-group">
+					<label for="supcontactno">Contact Number</label>
+					<input type="text" name="supcontactno" class="form-control" value="{{supcontactno}}" required>
+				</div>
+				<div class="form-group">
+					<label for="suplocation">Country</label>
+					<select name="suplocation" id="suplocation" class="form-control" value="{{suplocation}}" required>
+  						<option value="Singapore">Singapore</option>
+						<option value="Malaysia">Malaysia</option>
+						<option value="United States">United States</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="supaddress">Address</label>
+					<input id="searchaddress" type="text" name="supaddress" class="form-control" value="{{supaddress}}" required>
+				</div>
+				<div class="form-group">
+					<label for="suppostalcode">Postal Code</label>
+					<input type="text" name="suppostalcode" class="form-control" value="{{suppostalcode}}" required>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<a id="CancelButton" class="btn btn-primary" href="/supplier/viewSupplier">Cancel</a>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+		let autocomplete;
+		function activatePlacesSearch(){
+			var options;
+			var location = document.getElementById('suplocation');
+			if (location == "Singapore"){
+				options = {
+					types: ['(cities)'],
+					componentRestrictions: {country: "sg"}
+				};
+			}
+			else if (location == "Malaysia"){
+				options = {
+					types: ['(cities)'],
+					componentRestrictions: {country: "my"}
+				};
+			}
+			else if (location == "United States"){
+				options = {
+					types: ['(cities)'],
+					componentRestrictions: {country: "us"}
+				};
+			}
+			var input = document.getElementById('searchaddress');
+  			new google.maps.places.Autocomplete(input, options);
+		}
+	</script>
+
+<style>
+#CancelButton{
+    color: white;
+    text-decoration: none;
+}
+#MainHeader{
+	text-align: center;
+	text-decoration: underline;
+}
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0px 14px 28px 0px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 10px;
+    /* 5px rounded corners */
+}
+</style>

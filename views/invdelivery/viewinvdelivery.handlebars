@@ -1,0 +1,93 @@
+<h1 id="MainHeader">Inventory Management</h1>
+{{>_invnavbar}}
+<h2 id="Sum">Delivery Summary</h2>
+<h5 id="breadcrumb">Staff>Delivery</h5>
+<table id="paymenttable">
+	{{#if invdeliveries}}
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Price</th>
+				<th>Unit</th>
+				<th>Total</th>
+				<th>Date</th>
+				<th>Status</th>
+			</tr>
+			{{#each invdeliveries}}
+			<tr>
+				<td>{{id}}</td>
+				<td>{{DeliveryCompany}}</td>
+				<td>{{DeliveryPrice}}</td>
+				<td>{{DeliveryUnit}}</td>
+				<td>{{DeliveryTotal}}</td>
+				<td>{{formatDate DeliveryDate 'DD MMM YYYY'}}</td>
+				<td>{{DeliveryStatus}}</td>
+        	</tr>
+			{{/each}}						
+		</table>
+		{{else}}
+			<h3>No Deliveries</h3>
+		{{/if}}
+<style>
+	#paymenttable, td, th {
+		border: 1px solid black
+	}
+	#paymenttable{
+		border-collapse: collapse;
+		background-color: white;
+		width: 100%;
+	}
+	#TabContentImg{
+		margin-left: 100px;
+		margin-top: 10px;
+		width:60%;
+	}
+	#MainHeader{
+		text-align: center;
+		text-decoration: underline;
+	}
+	#Sum{
+		text-align: center;
+	}
+	#TabMenu {
+		margin-left: 22%;
+	}
+	#TabMenu form
+	{
+		display: inline-block;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	#Tab4{
+		border-top-left-radius: 8px;
+		border-top-right-radius: 8px;
+		border-color: burlywood;
+		border-style: solid;
+		border-width:1px;
+		background-color: burlywood;
+		color: white;
+	}
+	#Tab1, #Tab2, #Tab3, #Tab5{
+		border-top-left-radius: 8px;
+		border-top-right-radius: 8px;
+		border-color: rgb(255, 220, 173);
+		border-style: solid;
+		border-width:1px;
+		background-color: rgb(255, 220, 173);
+		color: white;
+	}
+	#Tab2:hover, #Tab3:hover, #Tab4:hover, #Tab5:hover{
+		border-color: rgb(192, 154, 105);
+		background-color: rgb(192, 154, 105);
+		color: black;
+	}
+	#TabContent{
+		box-shadow: 0px 14px 28px 0px rgba(54, 54, 54, 0.2);
+		background-color: burlywood;
+		border-radius: 25px;
+		width:70%;
+		margin-left: 20%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+	}
+	</style>

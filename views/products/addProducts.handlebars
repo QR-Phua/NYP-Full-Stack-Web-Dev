@@ -1,0 +1,96 @@
+<div class="container">
+	<div class="card card-body">
+		<h3>ADD PRODUCTS</h3>
+		<form action="/products/addProducts" method="post" id="addProducts" enctype="multipart/form-data">
+			<div class="form-group">
+				<label class="font-normal" for="prodImg">Image URL</label>
+				<input type="file" class="form-control" name="image" required>
+			</div>
+			<div class="form-group">
+				<label class="font-normal" for="prodName">Name</label>
+				<input type="text" class="form-control" name="prodName" required>
+			</div>
+			<div class="form-group">
+				<label class="font-normal" for="supplyCost">Supply Cost</label>
+				<input type="text" class="form-control" name="supplyCost" required>
+			</div>
+			<div class="form-group">
+				<label class="font-normal" for="prodPrice">Price</label>
+				<input type="text" class="form-control" name="prodPrice" required>
+			</div>
+			<div class="form-group">
+				<label class="font-normal" for="prodDesc">Description</label>
+				<input type="text" class="form-control" name="prodDesc" required>
+			</div>
+			<div>
+			<label class="font">Dimensions</label>
+			<input type="text" class="form-control" name="prodDimen" required>
+			</div>
+			<div class="form-group">
+				<label class="font-normal" for="prodQuantity">Quantity</label>
+				<input type="text" class="form-control" name="prodQuantity" required>
+			</div>
+			<br>
+			<button id="butAddVideo" type="submit" class="btn btn-primary">Save</button>
+		</form>
+	</div>
+</div>
+<br>
+<br>
+
+{{!-- <div class="container">
+	<div class="card card-body">
+		<h3>Add Products</h3>
+		<form action="/products/addProducts" method="post" id="addProducts" enctype="multipart/form-data">
+			<div class="form-group">
+				<label class="font" for="ProdImg">Image URL</label>
+				<input type="file" class="form-control" name="prodImg">
+			</div>
+			<div class="form-group">
+				<label class="font" for="ProdName">Product Name</label>
+				<textarea class="form-control" id="ProdName" name="ProdName" rows="1" required></textarea>
+			</div>
+			<div class="form-group">
+				<label class="font">Supply Cost</label>
+				<input id="supplyCost" width="200" name="supplyCost" required>
+			</div>
+			<div class="form-group">
+				<label class="font">Price</label>
+				<input id="prodPrice" width="200" name="prodPrice" required>
+			</div>
+			<div class="form-group">
+				<label class="font">Description</label>
+				<textarea class="form-control" id="prodDesc" name="prodDesc" rows="1" required></textarea>
+			</div>
+			<div class="form-group">
+				<label class="font">Dimensions</label>
+				<input id="prodDime" width="200" name="prodDime" required>
+			</div>
+			<div class="form-group">
+				<label class="font">Quantity</label>
+				<input id="prodQuantity" width="200" name="prodQuantity" required>
+			</div>
+			<br>
+			<button id="butAddProducts" type="submit" class="btn">Save</button>
+		</form>
+	</div>
+</div>
+<br>
+<br> --}}
+
+<style>
+	.font {
+		font-weight: normal;
+	}
+
+	.btn {
+		display: inline-block;
+		background: burlywood;
+		color: white;
+		transition: background 0.5s;
+	}
+
+	.btn:hover {
+		background: burlywood;
+	}
+</style>

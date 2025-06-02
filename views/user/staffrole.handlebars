@@ -1,0 +1,51 @@
+<script>
+$(document).ready(function() {
+    var table = $('#example').DataTable( {
+        responsive: true
+    } );
+ 
+    new $.fn.dataTable.FixedHeader( table );
+} );
+</script>
+
+<div>
+     <h2>Staffs's Role </h2>
+{{#if user1}}
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th> </th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each user1}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{username}}</td>
+                <td>{{name}}</td>
+                <td>{{contact}}</td>
+                <td>{{address}}</td>
+                <td>{{email}}</td>
+                <td>{{role}}</td>
+     
+                <td><a href="/user/editrole/{{id}}" class="card-link"><i class="fas fa-pencil-alt"></i>Edit</a></td>
+             
+                <td><a href="/user/deletestaff/{{id}}" class="card-link" data-toggle="confirmation"data-title="Are you sure? This cannot be undone."><i class="far fa-trash-alt"></i>Delete</a></td>
+            </tr>
+            {{/each}}
+            </tbody>
+        <tfoot>
+              
+        </tfoot>
+    </table>
+{{else}}
+            <h3>No data</h3>
+{{/if}}

@@ -1,0 +1,71 @@
+<h1 id="MainHeader">Inventory Management</h1>
+{{>_invnavbar}}
+<h2 id="Sum">Payment Summary</h2>
+<h5 id="breadcrumb">Staff>Payment</h5>
+<table id="paymenttable">
+	{{#if invpayments}}
+			<tr>
+				<th>ID</th>
+				<th>Unit</th>
+				<th>Total Cost</th>
+				<th>From</th>
+				<th>Payment Status</th>
+				<th>Date Ordered</th>
+				<!--<th>Buy</th>
+				<th>Reject</th>-->
+			</tr>
+			{{#each invpayments}}
+			<tr>
+				<td>{{id}}</td>
+				<td>{{PayAmt}}</td>
+				<td>{{PayTotal}}</td>
+				<td>{{SupPayName}}</td>
+				<td>{{PayType}}</td>
+				<td>{{formatDate supdate 'DD MMM YYYY'}}</td>
+				<td>
+					{{#if (equalto Status "Unpaid")}}
+					<a href="/invpayment/payingbackReceipt/{{id}}" class="card-link" data-toggle="confirmation" data-title="Make Payment?">
+						<i class="fas fa-donate"></i>
+							Pay Back
+					</a>
+					{{else}}
+						{{Status}}
+					{{/if}}
+				</td>
+        	</tr>
+			{{/each}}						
+		</table>
+		{{else}}
+			<h3>No Payments</h3>
+		{{/if}}
+<style>
+	#paymenttable, td, th {
+		border: 1px solid black
+	}
+	#paymenttable{
+		border-collapse: collapse;
+		background-color: white;
+		width: 100%;
+	}
+	#TabContentImg{
+		margin-left: 100px;
+		margin-top: 10px;
+		width:60%;
+	}
+	#MainHeader{
+		text-align: center;
+		text-decoration: underline;
+	}
+	#Sum{
+		text-align: center;
+	}
+	#TabMenu {
+		margin-left: 22%;
+	}
+	#TabMenu form
+	{
+		display: inline-block;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	</style>

@@ -1,0 +1,366 @@
+<h1 id="MainHeader">Inventory Management</h1>
+<h2 id="Sum">Rattan Stock Level</h2>
+<h5 id="breadcrumb">Staff>Stock</h5>
+{{>_invnavbar}}
+<div class="tabcontent1">
+	{{#if stocks}}
+	<div class="row">
+		<div class="column">
+			<div class="card">
+			<h3>Cost Per Unit</h3>
+			<br />
+			<h4>$ {{cputotal}}</h4>
+			</div>
+		</div>
+
+		<div class="column">
+			<div class="card">
+			<h3>Total Cost</h3>
+			<br />
+			<h4>$ {{costboughttotal}}</h4>
+			</div>
+		</div>
+		
+		<div class="column">
+			<div class="card">
+			<h3>Total Unit</h3>
+			<br />
+			<h4>{{stkboughttotal}}</h4>
+			</div>
+		</div>
+		
+		<div class="column">
+			<div class="card">
+			<h3>Last Change</h3>
+			<br />
+			<h4>{{formatDate lastdate 'DD MMM YYYY'}}</h4>
+			</div>
+		</div>
+	</div>
+	<div>
+		<a href="/stock/addProdUnit" class="button">Add More Products</a>
+	</div>
+    <table id="OfferTable">
+        <tr>
+          <th>Record ID</th>
+          <th>Status</th>
+          <th>Biz Name</th>
+          <th>Unit</th>
+          <th>Total Cost</th>
+          <th>Date</th>
+		  <th>Damaged Rattan Returns</th>
+		</tr>
+        {{#each stocks}}
+        <tr>
+			<td>{{id}}</td>
+			<td>{{stkstatus}}</td>
+			<td>{{bizname}}</td>
+			<td>{{stkamt}}</td>
+			<td>{{stktotalcost}}</td>
+			<td>{{formatDate stkdate 'DD MMM YYYY'}}</td>
+			<td>
+				{{#if (greaterthan leftover 0)}}
+				<a href="/stock/rattanReturns/{{id}}" class="card-link" data-toggle="confirmation" data-title="Record Damaged Rattan?">
+					<i class="fas fa-donate"></i>
+						Returns
+				</a>
+				{{else}}
+					<p>Empty</p>
+				{{/if}}
+			</td>
+        </tr>
+        {{/each}}						
+      </table>
+      {{else}}
+	  <div class="row">
+		<div class="column">
+			<div class="card">
+			<h3>Cost Per Unit</h3>
+			<br />
+			<h4>Empty</h4>
+			</div>
+		</div>
+
+		<div class="column">
+			<div class="card">
+			<h3>Total Cost</h3>
+			<br />
+			<h4>Empty</h4>
+			</div>
+		</div>
+		
+		<div class="column">
+			<div class="card">
+			<h3>Total Unit</h3>
+			<br />
+			<h4>Empty</h4>
+			</div>
+		</div>
+		
+		<div class="column">
+			<div class="card">
+			<h3>Last Change</h3>
+			<br />
+			<h4>Empty</h4>
+			</div>
+		</div>
+	</div>
+        <h3>No Stocks</h3>
+      {{/if}}
+	  <div>
+	</div>
+</div>
+<style>
+	#AddButton{
+		color: white;
+		text-decoration: none;
+	}
+	.button {
+        background-color: #1c87c9;
+        border: none;
+        color: white;
+        padding: 10px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 15px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+	.button:hover {
+        color: black;
+        text-decoration: none;
+    }
+
+	/* Float four columns side by side */
+	.column {
+	float: left;
+	width: 25%;
+	padding: 0 10px;
+	}
+
+	/* Remove extra left and right margins, due to padding */
+	.row {
+		margin: 0 -5px;
+		margin-bottom: 10px;
+		}
+
+	/* Clear floats after the columns */
+	.row:after {
+	content: "";
+	display: table;
+	clear: both;
+	}
+	/* Style the counter cards */
+	.card {
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+		padding: 16px;
+		text-align: center;
+		background-color: #f1f1f1;
+	}
+	.card_body {
+		background-image: linear-gradient(#ededed 1px, transparent 1px),
+		linear-gradient(90deg, #ededed 1px, transparent 1px);
+		background-size: 9px 9px;
+   	}
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+	/* Sort Table */
+	#MainHeader{
+		text-align: center;
+		text-decoration: underline;
+	}
+	#Sum{
+		text-align: center;
+	}
+	#asc0{
+		color: black;
+	}
+	#asc1, #asc2, #asc3, #asc4, #desc0, #desc1, #desc2, #desc3, #desc4 {
+		color: #c0c0c0;
+	}
+	#OfferTable, td, th {
+		border: 1px solid black
+	}
+	#OfferTable{
+		border-collapse: collapse;
+		background-color: white;
+		width: 100%;
+	}
+	tr:nth-child(even) {background-color: #f2f2f2;}
+	#TabContentImg{
+		margin-left: 100px;
+		margin-top: 10px;
+		width:60%;
+	}
+	/* Tabbed Styles */
+	.tabbed {
+	width: 80%;
+	min-width: 400px;
+	margin: 0 auto;
+	margin-bottom: 68px;
+	border-bottom: 4px solid #000;
+	overflow: hidden;
+	transition: border 250ms ease;
+	}
+	.tabbed ul {
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	float: left;
+	padding-left: 48px;
+	list-style-type: none;
+	}
+	.tabbed ul * {
+	margin: 0px;
+	padding: 0px;
+	}
+	.tabbed ul li {
+	display: block;
+	float: right;
+	padding: 10px 24px 8px;
+	background-color: #FFF;
+	margin-right: 46px;
+	z-index: 2;
+	position: relative;
+	cursor: pointer;
+	color: #777;
+
+	text-transform: uppercase;
+	font: 600 13px/20px roboto, "Open Sans", Helvetica, sans-serif;
+
+	transition: all 250ms ease;
+	}
+	.tabbed ul li a{
+		color: #777;
+		text-decoration: none;
+	}
+	.tabbed ul li.active a {
+		color: #fff;
+		text-decoration: none;
+	}
+	.tabbed ul li:hover{
+		color: #fff;
+		background-color: black;
+	}
+	.tabbed ul li:before,
+	.tabbed ul li:after {
+	display: block;
+	content: " ";
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 44px;  
+	background-color: #FFF;
+	transition: all 250ms ease;
+	}
+	.tabbed ul li:before {
+	right: -24px;
+	transform: skew(30deg, 0deg);
+	box-shadow: rgba(0,0,0,.1) 3px 2px 5px, inset rgba(255,255,255,.09) -1px 0;
+	}
+	.tabbed ul li:after {
+	left: -24px;
+	transform: skew(-30deg, 0deg);
+	box-shadow: rgba(0,0,0,.1) -3px 2px 5px, inset rgba(255,255,255,.09) 1px 0;
+	}
+	.tabbed ul li:hover,
+	.tabbed ul li:hover:before,
+	.tabbed ul li:hover:after {
+	background-color: #F4F7F9;
+	color: #444;
+	}
+	.tabbed ul li.active {
+	z-index: 3;
+	}
+	.tabbed ul li.active,
+	.tabbed ul li.active:before,
+	.tabbed ul li.active:after {
+	background-color: #000;
+	color: #fff;
+	}
+
+	/* Round Tabs */
+	.tabbed.round ul li {
+	border-radius: 8px 8px 0 0;
+	}
+	.tabbed.round ul li:before {
+	border-radius: 0 8px 0 0;
+	}
+	.tabbed.round ul li:after {
+	border-radius: 8px 0 0 0;
+	}
+
+	/* Skins */
+	.tabbed[class*="skin-"] ul li {
+	color: #FFF;
+	text-shadow: rgba(0,0,0,.1) 0 1px;
+	}
+
+	a.iprodev {
+	line-height: normal;
+	font-family: Varela Round, sans-serif;
+	font-weight: 600;
+	text-decoration: none;
+	font-size: 13px;
+	color: #A7AAAE;
+	position: fixed;
+	left: 20px;
+	bottom: 20px;
+	border: 1px solid #A7AAAE;
+	padding: 12px 20px 10px;
+	border-radius: 50px;
+	transition: all .1s ease-in-out;
+	text-transform: uppercase;
+	}
+	a.iprodev:hover {
+	background: #A7AAAE;
+	color: white;
+	}
+</style>
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	var tabs = document.querySelectorAll('.tabbed li');
+	var switchers = document.querySelectorAll('.switcher-box a');
+	var skinable = document.getElementById('skinable');
+
+	for (var i = 0, len = tabs.length; i < len; i++) {
+		tabs[i].addEventListener("click", function() {
+		if (this.classList.contains('active'))
+			return;
+
+		var parent = this.parentNode,
+			innerTabs = parent.querySelectorAll('li');
+
+		for (var index = 0, iLen = innerTabs.length; index < iLen; index++) {
+			innerTabs[index].classList.remove('active');
+		}
+
+		this.classList.add('active');
+		});
+	}
+
+	for (var i = 0, len = switchers.length; i < len; i++) {
+		switchers[i].addEventListener("click", function() {
+		if (this.classList.contains('active'))
+			return;
+
+		var parent = this.parentNode,
+			innerSwitchers = parent.querySelectorAll('a'),
+			skinName = this.getAttribute('skin');
+
+		for (var index = 0, iLen = innerSwitchers.length; index < iLen; index++) {
+			innerSwitchers[index].classList.remove('active');
+		}
+
+		this.classList.add('active');
+		skinable.className = 'tabbed round ' + skinName;
+		});
+	}
+	});
+</script>

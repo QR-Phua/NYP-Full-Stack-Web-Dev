@@ -1,0 +1,76 @@
+<h1 id="MainHeader">Inventory Management</h1>
+<h5 id="breadcrumb">Staff>Stock>Product>Add</h5>
+{{>_invnavbar}}
+<div class="row">
+	<div class="col-md-6 mx-auto">
+		<div class="card card-body">
+			<img class="logo" src="/img/AddProduct.png">
+			<h3 class="text-center">Add More Product Quantity</h3>
+			<form method="post" action="/stock/addmoreProdstk/{{prods.id}}"> 
+				<div class="form-group">
+					<label id="prodName" name="prodName">Add more stocks for {{prods.prodName}}</label>
+
+					<label for="id">Product ID :</label>
+					<input type="string" id="id" step="any" name="id" class="form-control" value="{{prods.id}}" readonly/>
+				</div>
+				<div class="form-group">
+					<label for="prodName">Add more stocks for :</label>
+					<input type="string" id="prodName" step="any" name="prodName" class="form-control" value="{{prods.prodName}}" readonly/>
+				</div>
+				<div class="form-group">
+					<label for="supplyCost">Supply Cost : (rattan/Unit)</label>
+					<input type="number" id="supplyCost" step="any" name="supplyCost" class="form-control" value="{{prods.supplyCost}}" readonly/>
+				</div>
+				<div class="form-group">
+					<label for="prodQuantity">Current Product Quantity :</label>
+					<input type="number" id="prodQuantity" step="any" name="prodQuantity" class="form-control" value="{{prods.prodQuantity}}" readonly/>
+				</div>
+				<div class="form-group">
+					<label for="leftover">Current Rattan Stock Level :</label>
+					<input type="number" id="leftover" step="any" name="leftover" class="form-control" value="{{leftover}}" readonly/>
+				</div>
+				<div class="form-group">
+					<label for="stkQuantity">Create more product quantity(units) :</label>
+					<input type="number" id="stkQuantity" step="any" name="stkQuantity" class="form-control" value="" required>
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<a id="CancelButton" class="btn btn-primary" href="/stock/viewinvStock">Cancel</a>
+			</form>
+		</div>
+	</div>
+</div>
+
+<style>
+#CancelButton{
+    color: white;
+    text-decoration: none;
+}
+#MainHeader{
+	text-align: center;
+	text-decoration: underline;
+}
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0px 14px 28px 0px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 10px;
+    /* 5px rounded corners */
+}
+
+#priceinput{
+	float:right;
+	width: 78%;
+}
+
+#countrydollar{
+	width: 80px;
+}
+</style>
+
+<script>
+	$('#datepicker').datepicker({
+		value: new Date().toLocaleDateString(),
+		format: 'dd/mm/yyyy',
+		uiLibrary: 'bootstrap4',
+	});
+</script>

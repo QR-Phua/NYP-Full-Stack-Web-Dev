@@ -1,0 +1,102 @@
+<!-- Products -->
+
+<h1>ALL PRODUCTS</h1>
+<div class="container">
+  <center style="float: right;">
+    <a href="/products/addProducts" class="btn">Add Products</a>
+  </center>
+
+  <select name="formal" style="margin-left:152px" onchange="javascript:handleSelect(this)">
+    <option selected disabled>Sort by</option>
+    <option value="/products/sort1/ID">Sort by ID</option>
+    <option value="/products/sort1/name">Sort by name</option>
+    <option value="/products/sort1/price">Sort by price</option>
+    <option value="/products/sort1/supplyCost">Sort by supply cost</option>
+    <option value="/products/sort1/quantity">Sort by quantity</option>
+  </select>
+  <br>
+  <br>
+
+  {{#if products}}
+
+  <table class="table table-bordered">
+
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Supply Cost</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Description</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each products}}
+      <tr>
+        <td>{{id}}</td>
+        <td><img height="50" class="img-responsive" src="/{{image}}" alt=""></td>
+        <td>{{prodName}}</td>
+        <td>${{supplyCost}}</td>
+        <td>${{prodPrice}}</td>
+        <td>{{prodQuantity}}</td>
+        <td>{{prodDesc}}</td>
+        <td>
+          <a href="/products/edit/{{id}}" class="card-link">
+            <i class="fas fa-pencil-alt"></i>
+          </a>
+        </td>
+        <td>
+          <a href="/products/delete/{{id}}" class="card-link" data-toggle="confirmation" data-title="Confirm delete?">
+            <i class="far fa-trash-alt"></i>
+          </a>
+        </td>
+      </tr>
+
+      {{/each}}
+    </tbody>
+
+  </table>
+</div>
+{{else}}
+<h2>No products</h2>
+{{/if}}
+
+</div>
+
+<script type="text/javascript">
+  function handleSelect(elm) {
+    window.location = elm.value;
+  }
+</script>
+
+<style>
+  select {
+    float: right;
+    display: inline-block;
+  }
+
+  .btn {
+    display: inline-block;
+    background: burlywood;
+    color: white;
+    transition: background 0.5s;
+    margin-left: 40px;
+  }
+
+  .btn:hover {
+    background: burlywood;
+  }
+
+  .card-link {
+    color: burlywood;
+  }
+
+  .card-link:hover {
+    color: black;
+    transition: background 0.5s;
+  }
+</style>

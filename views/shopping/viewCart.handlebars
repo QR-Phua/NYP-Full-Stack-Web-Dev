@@ -1,0 +1,249 @@
+<!--Section: Block Content-->
+
+
+<style>
+  .card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0px 14px 28px 0px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 10px;
+    /* 5px rounded corners */
+  }
+
+  /* On mouse-over, add a deeper shadow 
+  .card:hover {
+    box-shadow: 0 0px 30px 1px rgba(0, 0, 0, 0.2);
+  }
+  */
+
+
+  .viewCart_Img {
+    border-radius: 5px 5px 0 0;
+  }
+
+  #empty_Cart {
+    font-size: 200%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    ;
+  }
+
+  .text-center {
+    text-align: center !important;
+  }
+</style>
+
+<section>
+
+  {{#if items}}
+  <!--Grid row-->
+  <div class="row">
+
+    <!--Grid column-->
+    <div class="col-lg-8">
+
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="mb-4">Cart (<span id="cartLength">{{session.items.length}}</span> items)</h5>
+          {{#each items}}
+          <div class="row mb-4">
+            <div class="col-md-5 col-lg-3 col-xl-3">
+              <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                <a href="/products/productsDetail/{{id}}">
+                <img class="img-fluid w-100 viewCart_Img" src={{image}} alt="Sample">
+                </a>
+              </div>
+            </div>
+            <div class="col-md-7 col-lg-9 col-xl-9">
+              <div>
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h5>{{name}}</h5>
+                    <p class="mb-3 text-muted text-uppercase small">{{description}}</p>
+                    <p class="mb-3 text-muted text-uppercase small">Dimensions: {{dimensions}}</p>
+
+                    <p class="mb-3 text-muted text-uppercase small">Price: ${{price}} (each)</p>
+
+                    <p class="mb-3 text-muted text-uppercase small">Quantity:
+                      <button class="minus" class="minus">-</button>
+                      <span class="updateProduct" id='item_{{@index}}' name='quantity'>{{quantity}}</span>
+                      <button class="plus">+</button>
+                    </p>
+                    <small class="mb-3 form-text text-muted ">
+                      (Maximum 4 pieces)
+                    </small>
+                    <small class="mb-3 form-text text-muted" id="warning_{{@index}}" style="visibility: hidden;">
+                      <span style="color: red;">Maximum allowable quantity added</span>
+                    </small>
+
+                  </div>
+
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <a href="/shopping/viewCart" type="button"
+                      class="card-link-secondary small text-uppercase mr-3 deleteProduct" id='item_{{@index}}'><i
+                        class="fas fa-trash-alt mr-1"></i> Remove item </a>
+                    
+                  </div>
+                  <p class="mb-0"><span><strong id='item_{{@index}}_total'>${{item_Total}}</strong></span></p
+                    class="mb-0">
+                </div>
+              </div>
+            </div>
+          </div>
+          {{#unless @last}}
+          <hr class="mb-4">
+          {{/unless}}
+
+          {{/each}}
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="card mb-3">
+        <div class="card-body">
+
+          <p class="text-primary mb-0"><i class="fas fa-info-circle mr-1"></i> Do not delay the purchase, adding
+            items to your cart does not mean booking them.</p>
+
+        </div>
+      </div>
+      <!-- Card -->
+
+      <!-- Card -->
+      <div class="card mb-3">
+        <div class="card-body">
+
+          <h5 class="mb-4">Expected shipping delivery</h5>
+
+          <p class="mb-0">1 to 2 business weeks after order placed</p>
+        </div>
+      </div>
+      <!-- Card -->
+
+      <!-- Card -->
+      <div class="card mb-3">
+        <div class="card-body">
+
+          <h5 class="mb-4">We accept</h5>
+
+          <img class="mr-2 viewCart_Img" width="45px"
+            src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+            alt="Visa">
+          <img class="mr-2 viewCart_Img" width="45px"
+            src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+            alt="American Express">
+          <img class="mr-2 viewCart_Img" width="45px"
+            src="https://mdbootstrap.com/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+            alt="Mastercard">
+          <img class="mr-2 viewCart_Img" width="45px"
+            src="https://mdbootstrap.com/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.png"
+            alt="PayPal acceptance mark">
+        </div>
+      </div>
+      <!-- Card -->
+
+
+    </div>
+    <!--Grid column-->
+
+
+    <!--Grid column-->
+    <div class="col-lg-4">
+
+      <!-- Card -->
+      <div class="card mb-3">
+        <div class="card-body">
+
+          <h5 class="mb-3">Total</h5>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+              Subtotal
+              <span id="cart_Subtotal">${{subtotal}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center px-0 pb-0"
+              style="display:none">
+              Discount
+              <span id="cart_Discount">${{discount_Amount}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+              Shipping
+              {{#if shipping}}
+                <span id="shipping-Value" style="color:green">Free Shipping</span>
+              {{else}}
+                <span id="shipping-Value" style="color:black">To be calculated</span>
+              {{/if}}
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+              <div>
+                <strong>Current subtotal</strong>
+                <strong>
+                  <p class="mb-0">(including VAT)</p>
+                </strong>
+              </div>
+              <span><strong id="cart_Total">${{cart_Total}}</strong></span>
+            </li>
+          </ul>
+          <a class="btn btn-primary btn-block" id="nxtPage" href="/shopping/checkOut">Check Out</a>
+
+        </div>
+      </div>
+      <!-- Card -->
+
+      <!-- Card -->
+      <div class="card mb-3">
+        <div class="card-body">
+
+          <a class="dark-grey-text d-flex justify-content-between" data-toggle="collapse" href="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample" id="discount_Label">
+            Add a discount code
+            <span class="spinner-border spinner-border-sm mr-2" id="discount_Spinner" style="visibility: hidden;"
+              role="status" aria-hidden="true"></span>
+            <span><i class="fas fa-chevron-down pt-1"></i></span>
+          </a>
+
+          <div class="collapse" id="collapseExample">
+            <div class="mt-3">
+              <div class="md-form md-outline mb-0">
+                <input type="text" id="discount_Input" class="form-control font-weight-light"
+                  placeholder="Enter discount code" value="{{promo_Code}}">
+              </div>
+
+              <span id="discount_Applied" style="color: green; display: none;">Your discount code has been
+                applied</span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card -->
+
+    </div>
+    <!--Grid column-->
+
+
+  </div>
+  <!-- Grid row -->
+
+  {{else}}
+  <!-- empty cart info -->
+
+  <div class="w-md-80 w-lg-60 text-center mx-md-auto">
+    <div class="mb-5">
+
+      <span class="fa fa-shopping-bag" id="empty_Cart"></span>
+
+      <h1 class="h2">Your cart is currently empty</h1>
+      <p>Add some items to your cart! You will find a lot of
+        interesting products on our "Products" page.</p>
+    </div>
+    <a class="btn btn-primary btn-wide" href="/products/viewProducts">Start Shopping</a>
+  </div>
+
+
+
+  {{/if}}
+</section>
+<!--Section: Block Content-->

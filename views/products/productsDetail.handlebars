@@ -1,0 +1,90 @@
+<div class="small-container">
+    {{#if product}}
+    <div class="row">
+        <div class="col">
+            <img src="/{{product.image}}">
+        </div>
+        <div class="col">
+            <h2> {{product.prodName}} </h2>
+            <br>
+            <h4>${{product.prodPrice}}</h4>
+            <br>
+            <p class="col-4-desc">{{product.prodDesc}}<br><br>
+                {{product.prodDimensions}} <br><br>
+                Made in Singapore
+            </p>
+            <p> Quantity: </p>
+            <form action="javascript:void(0);">
+                <input type="number" class="addProductQuantity" name="addQty" value="1" min="1" max="{{product.prodQuantity}}">
+                {{!-- <input type="hidden" class="addProductQuantity" name="index_Value" value="{{product.id}}"> --}}
+                <p id="exceeded_Quantity" style="visibility: hidden; color: red;">
+                    You have exceeded the maximum quantity in the cart for this item.
+                    Any additional quantity will not be added to cart
+                </p>
+                </p>
+                <a href="/shopping/viewCart" class="btn addProduct" id="id_{{product.id}}" value="{{product.id}}">
+                    &#128722; Add to cart</a>
+            </form>
+        </div>
+    </div>
+    {{else}}
+
+    <div class="alert alert-danger">
+        {{errors}}
+    </div>
+    {{/if}}
+</div>
+
+<style>
+    .small-container {
+        max-width: 1080px;
+        margin: auto;
+        padding: 25px;
+    }
+
+    .col {
+        padding: 0;
+    }
+
+    img {
+        padding-right: 40px;
+        width: 100%;
+        height: 100%;
+    }
+
+    h2 {
+        font-weight: bold;
+    }
+
+    .qtyLeft {
+        font-weight: lighter;
+    }
+
+    input {
+        width: 100px;
+        height: 40px;
+        padding-left: 10px;
+        font-size: 20px;
+        text-align: center;
+        margin-right: 10px;
+        border: 1px solid black;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    .btn {
+        display: inline-block;
+        background: burlywood;
+        color: white;
+        padding: 8px 30px;
+        margin: 30px 0;
+        border-radius: 30px;
+        transition: background 0.5s;
+    }
+
+    .btn:hover {
+        background: rgb(230, 185, 127);
+    }
+</style>

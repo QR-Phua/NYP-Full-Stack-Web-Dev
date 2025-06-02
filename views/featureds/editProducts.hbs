@@ -1,0 +1,37 @@
+<div class="container">
+	<div class="card card-body">
+		<h3>UPDATE FEATURED PRODUCTS</h3>
+		<form action="/products/edit/{{product.id}}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="_method" value="PUT">
+			<div class="form-group">
+				<label for="prodImg">Image URL</label>
+				<input type="file" class="form-control" name="fImage" value="{{featured.fImage}}"required>
+			</div>
+			<div class="form-group">
+				<label class="font-normal" for="prodName">Name</label>
+				<input type="text" class="form-control" name="fName" value="{{featured.fName}}" required>
+			</div>
+			<div class="form-group">
+				<label class="font-normal" for="fPrice">Price</label>
+				<input type="text" class="form-control" name="fPrice" value="{{featured.fPrice}}" required>
+			</div>
+			<br>
+			<button id="butAddProduct" type="submit" class="btn">Save</button>
+			&nbsp;
+			<button onclick="/products/featuredProducts" type="submit" class="btn">Cancel</button>
+		</form>
+	</div>
+</div>
+
+<style>
+	.btn {
+		display: inline-block;
+		background: burlywood;
+		color: white;
+		transition: background 0.5s;
+	}
+
+	.btn:hover {
+		background: burlywood;
+	}
+</style>

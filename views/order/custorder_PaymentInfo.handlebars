@@ -1,0 +1,96 @@
+<style>
+    .order_Img {
+        max-height: 290px;
+        min-height: 290px;
+        position: relative;
+        object-fit: scale-down;
+    }
+
+    .backButtonLink {
+        background: none !important;
+        border: none;
+        padding: 0 !important;
+        /*optional*/
+        font-family: arial, sans-serif;
+        /*input has OS specific font-family*/
+        color: #007bff;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .backButtonLink:hover {
+        color: #004987;
+    }
+</style>
+<div class="row">
+    <div class="col-9 pl-4 pb-5 pt-5">
+        
+        <h1 class="mb-3">Payment Information</h1>
+        <h3 class="mb-3">Order Number: {{order.id}}</h3>
+        <h6 class="mb-2">Order Placed: {{order.timestamp}} UTC +0</h6>
+    
+    </div>
+    <div class="col-3 pl-4 pb-5 pt-5">
+        <a class="btn btn-primary" href="/order/invoice/{{order.id}}">View Invoice</a>
+    </div>
+</div>
+
+{{#each order_Item}}
+<div class="row mb-3">
+
+    <div class="col-lg-4 col-md-5 col-sm-6">
+        <img class="w-100 order_Img" src={{image}}>
+    </div>
+
+    <div class="col-lg-8 col-md-7 col-sm-6 ">
+        <h4 class="pl-4 mt-4 mb-4">{{product_Name}}</h4>
+        <h6 class="pl-4 mb-4">Product Dimensions: {{dimensions}}</h6>
+        <h6 class="pl-4 mb-4">Price: ${{price}} (each)</h6>
+        <h6 class="pl-4 mb-4">Quantity: {{quantity}}</h6>
+        <strong class="pl-4">Item Total: ${{ get_Item_Total price quantity}}</strong>
+    </div>
+</div>
+
+<hr class="mb-5 mt-5">
+
+{{/each }}
+
+
+<div class="row pl-3">
+    <div class="col-lg-6 col-md-6">
+        <div class="row pl-2 mb-3">
+            <h5 class="mb-3">Order Subtotal: ${{order.order_Subtotal}}</h5>
+        </div>
+        <div class="row pl-2 mb-3">
+            <h5 class="mb-3">Discount Amount: ${{order.discount_Amount}}</h5>
+        </div>
+        <div class="row pl-2 mb-3">
+            <h5 class="mb-3">Shipping Fee: ${{order.shipping_Amount}}</h5>
+        </div>
+        <div class="row pl-2 mb-3">
+            <h5 class="mb-3">Total Amount: ${{order.order_Total}}</h5>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <div class="row pl-2 mb-3">
+            <h4 class="mb-3">Payment Method: {{order.payment_Type}}</h3>
+        </div>
+        {{#if order.card_Number}}
+        <div class="row pl-2 mb-3">
+            <h5 class="mb-3">****{{order.card_Number}}</h4>
+        </div>
+        {{/if}}
+        <div class="row pl-2 mb-3">
+            <h5 class="mb-3">Paid by: {{order.first_Name}} {{order.last_Name}}</h4>
+        </div>
+    </div>
+</div>
+<div class="row pl-2 mt-4">
+    <div class="d-sm-flex justify-content-sm-between align-items-sm-center">
+        <a href="/order/custorder_All" class="btn d-block mb-3 mb-sm-0 backButtonLink" id="paymentBack">
+            <span class="fa fa-arrow-left mr-2"></span>
+            Back to all orders
+        </a>
+
+    </div>
+</div>

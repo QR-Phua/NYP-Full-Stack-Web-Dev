@@ -1,0 +1,197 @@
+<br>
+<div class="small-container">
+  <h2 class="title">Featured Products</h2>
+  <div class="row">
+    {{#each featured}}
+    <div class="col-2" width="200px" height="200px"style="margin-bottom:112px;">
+      <img src="/{{fImage}}">
+      <h4>{{fName}} </h4>
+      <p class="col-2-p" style="margin-top:12px;"> ${{fPrice}} </p>
+    </div>
+      {{/each}}
+  </div>
+
+</div>
+<a href="/products/viewProducts" class="btn">Come and take a look! &#10153;</a>
+
+<br>
+
+<table>
+  <tbody>
+
+    <tr>
+      <td>
+        <i class="fas fa-map-marker-alt"> Address</i>
+      </td>
+      <td>
+        <a href="https://goo.gl/maps/BWAUfCJK1sx1eLd5A">122 Bukit Merah Lane 1 Singapore 150122</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <i class="fas fa-subway"> Nearest Train Station</i>
+      </td>
+      <td>
+        <a href="https://goo.gl/maps/jH17S5P1zpTPRSea8">Queenstown MRT Station</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <i class="fas fa-phone"> Phone</i>
+      </td>
+      <td>
+        +65 6278 2388
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <i class="fas fa-clock"> Opening Hours</i>
+      </td>
+      <td>
+        <table>
+          <tr class="openingHours">
+            <td>
+              Monday
+            </td>
+            <td>
+              10:00 - 21:00
+            </td>
+          </tr>
+          <tr class="openingHours">
+            <td>
+              Tuesday
+            </td>
+            <td>
+              10:00 - 21:00
+            </td>
+          </tr>
+          <tr class="openingHours">
+            <td>
+              Wednesday
+            </td>
+            <td>
+              10:00 - 21:00
+            </td>
+          </tr>
+          <tr class="openingHours">
+            <td>
+              Thursday
+            </td>
+            <td>
+              10:00 - 21:00
+            </td>
+          </tr>
+          <tr class="openingHours">
+            <td>
+              Friday
+            </td>
+            <td>
+              10:00 - 21:00
+            </td>
+          </tr>
+          <tr class="openingHours">
+            <td>
+              Satday
+            </td>
+            <td>
+              10:00 - 21:00
+            </td>
+          </tr>
+          <tr class="openingHours">
+            <td>
+              Sunday
+            </td>
+            <td>
+              13:00 - 18:00
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <i class="fas fa-link"> Facebook</i>
+      </td>
+      <td>
+        <a href="https://www.facebook.com/pages/Chun-Mee-Lee-Rattan-Furniture/597085723723961">View our Facebook</a>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+
+<style>
+  
+  .btn {
+    display: inline-block;
+    background: burlywood;
+    color: white;
+    padding: 8px 30px;
+    margin: 30px 0;
+    border-radius: 30px;
+    transition: background 0.5s;
+  }
+
+  .btn:hover {
+    background: burlywood;
+  }
+
+  .small-container {
+    max-width: 1080px;
+    margin: auto;
+  }
+
+  .row {
+    justify-content: space-between;
+    margin: 100px auto 50px;
+  }
+
+  a {
+    color: black;
+  }
+
+  .col-3 {
+    flex-basis: 30%;
+    min-width: 250px;
+    font-weight: normal;
+    transition: transform 0.5s;
+  }
+
+  .col-3-p {
+    font-size: 14px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .col-3:hover {
+    transform: translateY(-5px);
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr .openingHours:nth-child(even) {
+    background-color: #dddddd;
+  }
+  
+</style>

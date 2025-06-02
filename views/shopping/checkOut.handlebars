@@ -1,0 +1,747 @@
+<style>
+    .card {
+        /* Add shadows to create the "card" effect */
+        box-shadow: 0px 14px 28px 0px rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        border-radius: 10px;
+        /* 5px rounded corners */
+    }
+
+    .card[special_Card] {
+        box-shadow: none;
+        transition: none;
+    }
+
+    .card[special_Card]:hover {
+        box-shadow: none;
+    }
+
+    /* On mouse-over, add a deeper shadow */
+    .card:hover {
+        box-shadow: 0 28px 56px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .backButtonLink {
+        background: none !important;
+        border: none;
+        padding: 0 !important;
+        /*optional*/
+        font-family: arial, sans-serif;
+        /*input has OS specific font-family*/
+        color: #007bff;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .backButtonLink:hover {
+        color: #004987;
+    }
+
+    div.d-sm-flex.justify-content-sm-between.align-items-sm-center {
+        margin-top: 30px;
+    }
+
+    .payment_Img {
+        max-width: 100%;
+    }
+
+    .product_Img {
+        width: 6rem;
+        height: 6rem;
+    }
+
+
+    /* Variables */
+    * {
+        box-sizing: border-box;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    #payment-message {
+        color: rgb(105, 115, 134);
+        font-size: 16px;
+        line-height: 20px;
+        padding-top: 12px;
+        text-align: center;
+    }
+
+    #payment-element {
+        margin-bottom: 24px;
+    }
+
+    /* Buttons and links */
+    #stripe_Submit {
+        background: #007bff;
+        font-family: Arial, sans-serif;
+        color: #ffffff;
+        border-radius: 4px;
+        border: 0;
+        padding: 12px 16px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: block;
+        transition: all 0.2s ease;
+        box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+        width: 100%;
+    }
+
+    #stripe_Submit:hover {
+        filter: contrast(115%);
+    }
+
+    #stripe_Submit:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+    /* spinner/processing state, errors */
+    .spinner,
+    .spinner:before,
+    .spinner:after {
+        border-radius: 50%;
+    }
+
+    .spinner {
+        color: #ffffff;
+        font-size: 22px;
+        text-indent: -99999px;
+        margin: 0px auto;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        box-shadow: inset 0 0 0 2px;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+
+    .spinner:before,
+    .spinner:after {
+        position: absolute;
+        content: "";
+    }
+
+    .spinner:before {
+        width: 10.4px;
+        height: 20.4px;
+        background: #007bff;
+        border-radius: 20.4px 0 0 20.4px;
+        top: -0.2px;
+        left: -0.2px;
+        -webkit-transform-origin: 10.4px 10.2px;
+        transform-origin: 10.4px 10.2px;
+        -webkit-animation: loading 2s infinite ease 1.5s;
+        animation: loading 2s infinite ease 1.5s;
+    }
+
+    .spinner:after {
+        width: 10.4px;
+        height: 10.2px;
+        background: #007bff;
+        border-radius: 0 10.2px 10.2px 0;
+        top: -0.1px;
+        left: 10.2px;
+        -webkit-transform-origin: 0px 10.2px;
+        transform-origin: 0px 10.2px;
+        -webkit-animation: loading 2s infinite ease;
+        animation: loading 2s infinite ease;
+    }
+
+    .load_Spinner,
+    .load_Spinner:before,
+    .load_Spinner:after {
+        border-radius: 50%;
+    }
+
+    .load_Spinner {
+        color: #007bff;
+        font-size: 22px;
+        text-indent: -99999px;
+        margin: 0px auto;
+        position: relative;
+        width: 20px;
+        height: 20px;
+        box-shadow: inset 0 0 0 2px;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+
+    .load_Spinner:before,
+    .load_Spinner:after {
+        position: absolute;
+        content: "";
+    }
+
+    .load_Spinner:before {
+        width: 10.4px;
+        height: 20.4px;
+        background: #ffffff;
+        border-radius: 20.4px 0 0 20.4px;
+        top: -0.2px;
+        left: -0.2px;
+        -webkit-transform-origin: 10.4px 10.2px;
+        transform-origin: 10.4px 10.2px;
+        -webkit-animation: loading 2s infinite ease 1.5s;
+        animation: loading 2s infinite ease 1.5s;
+    }
+
+    .load_Spinner:after {
+        width: 10.4px;
+        height: 10.2px;
+        background: #ffffff;
+        border-radius: 0 10.2px 10.2px 0;
+        top: -0.1px;
+        left: 10.2px;
+        -webkit-transform-origin: 0px 10.2px;
+        transform-origin: 0px 10.2px;
+        -webkit-animation: loading 2s infinite ease;
+        animation: loading 2s infinite ease;
+    }
+
+
+    @-webkit-keyframes loading {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes loading {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        form {
+            width: 80vw;
+            min-width: initial;
+        }
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-lg-4 order-lg-2 mb-9 mb-lg-0">
+        <!-- Order Summary -->
+        <div class="bg-gray-100 border rounded p-5">
+            <!-- Title -->
+            <h2 class="h5 mb-0">Order summary</h2>
+            <!-- End Title -->
+
+            <hr class="my-4">
+
+            <!-- Product -->
+
+            {{#each items}}
+
+            <div class="media mb-4">
+                <div class="d-flex position-relative mr-3">
+                    <img class="product_Img" src="{{image}}" alt="Image Description">
+                </div>
+                <div class="media-body">
+                    <h4 class="h6 mb-1">{{name}}</h4>
+                    <small class="d-block text-secondary">Quantity: {{quantity}}</small>
+                    <small class="d-block text-secondary price">Price: ${{price}} (each)</small>
+                </div>
+            </div>
+
+            {{/each}}
+            <!-- End Product -->
+
+            <hr class="my-4">
+
+            <!-- Title -->
+            <div class="mb-3">
+                <h4 class="h6 mb-0">Have a code?</h4>
+                <small class="text-secondary">Go back to the shopping cart page to add</small>
+                <span class="spinner-border spinner-border-sm mr-2" id="discount_Spinner" style="visibility: hidden;"
+                    role="status" aria-hidden="true"></span>
+            </div>
+            <!-- End Title -->
+
+            <!-- Input -->
+            <form class=" input-group input-group-sm form form--sm">
+                <input disabled type="text" class="form-control form__input" placeholder="Code" aria-label="Code"
+                    id="discount_Code" value="{{discount_Code}}">
+            </form>
+            <span id="discount_Applied" style="color: green; display: none;">Your discount code has been applied</span>
+            <!-- End Input -->
+
+            <hr class="my-4">
+
+            <!-- Total -->
+            <div class="media align-items-center mb-2">
+                <div class="mr-3">
+                    <h4 class="h6 text-muted font-weight-normal mb-0">Subtotal</h4>
+                </div>
+                <div class="media-body text-right">
+                    <span id="order_Subtotal">${{subtotal}}</span>
+                </div>
+            </div>
+
+            <div class="media align-items-center mb-2">
+                <div class="mr-3">
+                    <h4 class="h6 text-muted font-weight-normal mb-0">Discount</h4>
+                </div>
+                <div class="media-body text-right">
+                    <span id="order_Discount">${{discount}}</span>
+                </div>
+            </div>
+
+            <div class="media align-items-center">
+                <div class="mr-3">
+                    <h4 class="h6 text-muted font-weight-normal mb-0">Shipping</h4>
+                </div>
+                <div class="media-body text-right">
+                    {{#if shipping}}
+                    <span id="shipping_Cost" style="color: green;">Free Shipping</span>
+                    {{else}}
+                    <span id="shipping_Cost" style="color: black;">$4.58</span>
+                    {{/if}}
+                </div>
+            </div>
+            <!-- End Total -->
+
+            <hr class="my-4">
+
+            <!-- Total -->
+            <div class="media align-items-center">
+                <div class="mr-3">
+                    <h4 class="h6">Total</h4>
+                </div>
+                <div class="media-body text-right">
+                    <span class="font-weight-medium" id="order_Total"></span>
+                </div>
+            </div>
+            <!-- End Total -->
+        </div>
+        <!-- End Order Summary -->
+    </div>
+
+    <div class="col-lg-8 order-lg-1">
+        <div id="stepFormContent">
+
+            <!-- Customer Info -->
+            <div id="customerInfoStep" style="display: block">
+                <!-- Title -->
+                <div class="mb-3 mt-3">
+                    <h1 class="h4">Shipping address</h1>
+                </div>
+                <!-- End Title -->
+
+                <!-- Billing Form -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form id="customer_Info_Form" action="javascript:void(0);">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- Input -->
+                                    <div class="mb-6">
+                                        <label class="h6 small d-block text-uppercase">
+                                            First name
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group form">
+                                            <input class="form-control form__input" type="text" name="firstName" 
+                                                placeholder="First name" aria-label="First name" value="{{query.first_Name}}">
+                                        </div>
+
+                                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                            name="fN_Warning">
+                                            Please enter your first name
+                                        </label>
+
+                                    </div>
+                                    <!-- End Input -->
+                                </div>
+
+                                <div class="col-md-6">
+                                    <!-- Input -->
+                                    <div class=" mb-6">
+                                        <label class="h6 small d-block text-uppercase">
+                                            Last name
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class=" input-group form">
+                                            <input class="form-control form__input" type="text" name="lastName" 
+                                                placeholder="Last name" aria-label="Last name" value="{{query.last_Name}}">
+                                        </div>
+
+                                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                            name="lN_Warning">
+                                            Please enter your last name
+                                        </label>
+
+                                    </div>
+                                    <!-- End Input -->
+                                </div>
+
+                                <div class="w-100"></div>
+
+                                <div class="col-md-6">
+                                    <!-- Input -->
+                                    <div class="mb-6">
+                                        <label class="h6 small d-block text-uppercase">
+                                            Email address
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group form">
+                                            <input class="form-control form__input" type="email" name="email" 
+                                                placeholder="Email address" aria-label="Email address" value="{{query.email}}">
+                                        </div>
+
+                                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                            name="email_Warning">
+                                            Please enter your email address
+                                        </label>
+                                    </div>
+                                    <!-- End Input -->
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <!-- Input -->
+                                    <div class=" mb-6">
+                                        <label class="h6 small d-block text-uppercase">
+                                            Phone
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class=" input-group form">
+                                            <input class="form-control form__input" name="phone" type="text" 
+                                                placeholder="Phone" aria-label="Phone" value="{{query.phone}}">
+                                        </div>
+
+                                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                            name="pN_Warning">
+                                            Please enter your phone number
+                                        </label>
+                                    </div>
+                                    <!-- End Input -->
+                                </div>
+
+                                <div class="w-100"></div>
+
+                                <div class="col-md-8">
+                                    <!-- Input -->
+                                    <div class=" mb-6">
+                                        <label class="h6 small d-block text-uppercase">
+                                            Street address
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group form">
+                                            <input class="form-control form__input" type="text" name="streetAddress"
+                                                placeholder="Street address" aria-label="Street address" value="{{query.address}}">
+                                        </div>
+
+                                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                            name="address_Warning">
+                                            Please enter a street address
+                                        </label>
+                                    </div>
+                                    <!-- End Input -->
+                                </div>
+
+                                <div class="col-md-4">
+                                    <!-- Input -->
+                                    <div class=" mb-6">
+                                        <label class="h6 small d-block text-uppercase">
+                                            Apt, suite, etc.
+                                        </label>
+
+                                        <div class="input-group form">
+                                            <input class="form-control form__input" name="apartment" type="text"
+                                                placeholder="Unit number" aria-label="Unit number" value="{{query.apartment}}">
+                                        </div>
+                                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                            name="apt_Warning">
+                                            Please enter your unit number
+                                        </label>
+                                    </div>
+                                    <!-- End Input -->
+                                </div>
+
+                                <div class="col-md-12">
+                                    <!-- Input -->
+                                    <div class=" mb-6">
+                                        <label class="h6 small d-block text-uppercase">
+                                            City
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group form">
+                                            <input class="form-control form__input" type="text" name="city" 
+                                                placeholder="City" aria-label="City" value="{{query.city}}">
+                                        </div>
+
+                                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                            name="city_Warning">
+                                            Please enter a city
+                                        </label>
+
+                                    </div>
+                                    <!-- End Input -->
+                                </div>
+
+                                <div class="w-100"></div>
+
+                                <div class="col-md-6">
+                                    <!-- Input -->
+                                    <div class="mb-6">
+                                        <label class="h6 small d-block text-uppercase">
+                                            Country
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <select class="custom-select" name="country" data-value="{{query.country}}">
+                                            <option selected="">Select country</option>
+                                            <option value="Australia">Australia</option>
+
+                                            <option value="Brunei Darussalam">Brunei Darussalam</option>
+
+                                            <option value="China">China</option>
+
+                                            <option value="France">France</option>
+
+                                            <option value="Germany">Germany</option>
+
+                                            <option value="Hong Kong">Hong Kong</option>
+
+                                            <option value="Indonesia">Indonesia</option>
+
+                                            <option value="Japan">Japan</option>
+
+
+                                            <option value="Malaysia">Malaysia</option>
+
+
+                                            <option value="Philippines">Philippines</option>
+
+                                            <option value="Singapore">Singapore</option>
+
+                                            <option value="Thailand">Thailand</option>
+
+                                            <option value="United Kingdom">United Kingdom</option>
+                                            <option value="United States">United States</option>
+
+                                            <option value="Vietnam">Vietnam</option>
+
+                                        </select>
+
+                                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                            name="country_Warning">
+                                            Please select a country
+                                        </label>
+                                    </div>
+                                    <!-- End Input -->
+                                </div>
+
+                                <div class="col-md-6">
+                                    <!-- Input -->
+                                    <div class=" mb-6">
+                                        <label class="h6 small d-block text-uppercase">
+                                            Postcode/Zip
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <div class="input-group form">
+                                            <input class="form-control form__input" type="text" name="postCode"
+                                                placeholder="Postcode/Zip"  aria-label="Postcode/Zip" value="{{query.post_Code}}">
+                                        </div>
+
+                                        <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                            name="postCode_Warning">
+                                            Please enter a postal code or zipcode
+                                        </label>
+                                    </div>
+                                    <!-- End Input -->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- End Billing Form -->
+
+                <!-- Buttons -->
+                <div class="d-sm-flex justify-content-sm-between align-items-sm-center">
+                    <a class="d-block mb-3 mb-sm-0" href="/shopping/viewCart">
+                        <span class="fa fa-arrow-left mr-2"></span>
+                        Continue Shopping
+                    </a>
+
+                    <button type="button" class="btn btn-primary" id="form-1-Btn">Proceed to Shipping</button>
+                </div>
+                <!-- End Buttons -->
+
+            </div>
+            <!-- End Customer Info -->
+
+            <!-- Shipping -->
+            <div id="shippingStep" style="display: none;">
+                <!-- Title -->
+                <div class="mb-3 mt-3">
+                    <h2 class="h4">Shipping method</h2>
+                </div>
+                <!-- End Title -->
+                <form id="shipping_Step_Form" action="javascript:void(0);">
+                    <div class="row mb-6">
+                        <div class="col-sm-6">
+                            <div class="card mb-3" id="standard_Shipping_Option">
+                                <div class="card-body">
+                                    <!-- Modern Form Selector -->
+                                    <div class="custom-control custom-radio custom-control-inline ">
+                                        <input type="radio" id="productShippingSelector1" class="custom-control-input"
+                                            name="productShippingSelector" checked="" value="4.58" shipping="Standard">
+                                        <label class="custom-control-label " for="productShippingSelector1">
+                                            <span class="d-block h6 mb-1">$4.58 - Standard shipping</span>
+                                            <span class="d-block text-muted font-size-14">Shipment is by regular ocean or air shipping service</span>
+                                        </label>
+                                    </div>
+                                    <!-- End Modern Form Selector -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card mb-3" id="express_Shipping_Option">
+                                <div class="card-body">
+                                    <!-- Modern Form Selector -->
+                                    <div class="custom-control custom-radio custom-control-inline ">
+                                        <input type="radio" id="productShippingSelector2" class="custom-control-input "
+                                            name="productShippingSelector" value="7.99" shipping="Express">
+                                        <label class="custom-control-label " for="productShippingSelector2">
+                                            <span class="d-block h6 mb-1">$7.99 - Express shipping</span>
+                                            <span class="d-block text-muted font-size-14">Shipment is by express air shipping service</span>
+                                        </label>
+                                    </div>
+                                    <!-- End Modern Form Selector -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Shipping -->
+                    </div>
+                </form>
+                <!-- Buttons -->
+                <div class="d-sm-flex justify-content-sm-between align-items-sm-center">
+                    <button type="button" class="btn d-block mb-3 mb-sm-0 backButtonLink" id="shippingBack">
+                        <span class="fa fa-arrow-left mr-2"></span>
+                        Back to Customer Info
+                    </button>
+                    <button type="button" class="btn btn-primary" id="form-2-Btn">Proceed to Payment</button>
+                </div>
+                <!-- Buttons -->
+
+                <hr class="my-9">
+
+                <!-- Info -->
+
+                <!-- End Info -->
+
+                <!-- End Shipping -->
+            </div>
+
+            <!-- Payment -->
+            <div id="paymentStep" style="display: none;">
+                <!-- Title -->
+                <div class="mb-3 mt-3">
+                    <h2 class="h4">Payment method</h2>
+                </div>
+                <!-- End Title -->
+
+                <!-- Button Group -->
+
+                <div class="row mb-6">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <div class="card mb-3 img_Active" special_Card id="payment_CC">
+                            <div class="card-body">
+                                <input type="image" class="payment_Img" id="payment_CC_Img"
+                                    src="/img/payment_Cards_Img.png" alt="Credit Card">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card mb-3 " special_Card id="payment_Paypal">
+                            <div class="card-body">
+                                <input type="image" class=" payment_Img" src="/img/paypal_Img.png"
+                                    id="payment_Paypal_Img" alt="PayPal Logo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- End Button Group -->
+
+                <!-- Credit Card -->
+
+                <div id="creditCard" data-target-group="paymentMethods">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <form id="credit_Card_Form">
+                                <div class="load_Spinner" id="load_Spinner"></div>
+
+                                <div id="payment-element"></div>
+                                <button id="stripe_Submit" style="display: none;">
+                                    <div class="spinner hidden" id="spinner"></div>
+                                    <span id="button-text">Pay now</span>
+                                </button>
+                                <div id="payment-message" class="hidden"></div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Credit Card -->
+
+                <!-- Credit Card -->
+
+                <div id="payPal" style="display: none; " data-target-group="paymentMethods">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <form method="post" action="/shopping/paymentPaypal">
+                                <button type="submit" class="btn btn-block btn-warning mb-6">
+                                    Pay with
+                                    <img src="/img/paypal_Img.png" style="width: 70px;" alt="PayPal logo">
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Credit Card -->
+
+                <!-- Buttons -->
+                <div class="d-sm-flex justify-content-sm-between align-items-sm-center">
+                    <button type="button" class="btn d-block mb-3 mb-sm-0 backButtonLink" id="paymentBack">
+                        <span class="fa fa-arrow-left mr-2"></span>
+                        Back to Shipping Method
+                    </button>
+
+                </div>
+                <!-- End Buttons -->
+            </div>
+
+
+        </div>
+        <!-- End Payment -->
+    </div>
+</div>

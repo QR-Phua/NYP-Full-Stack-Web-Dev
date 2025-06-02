@@ -1,0 +1,258 @@
+<h1 id="MainHeader">Inventory Management</h1>
+{{>_invnavbar}}
+<h2 id="Sum">Dashboard</h2>
+<h5 id="breadcrumb">Staff>Dashboard</h5>
+<div class="Summary_Tab">
+    <div id="carbon-block" style="margin:30px auto"></div>
+    <div class="row">
+
+        <div class="col-sm-6 col-md-6 col-lg-4 mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="detail text-center">
+                                <p>Latest Deals</p>
+                                {{#if lastdeal}}
+                                    <table id="OfferTable">
+                                        <tr>
+                                            <th>Supplier</th>
+                                            <th>Unit</th>
+                                            <th>Total Cost</th>
+                                            <th>Expire</th>
+                                        </tr>
+                                        <tr>
+                                            <td>{{lastdeal.supname}}</td>
+                                            <td>{{lastdeal.supamt}}</td>
+                                            <td>{{lastdeal.sgdtotal}}</td>
+                                            <td>{{formatDate lastdeal.supdate 'DD MMM YYYY'}}</td>
+                                        </tr>
+                                    </table>
+                                {{else}}
+                                    <span>Empty</span>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-4 mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <svg class="svg-inline--fa fa-money-bill-alt fa-w-20 olive" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="money-bill-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M352 288h-16v-88c0-4.42-3.58-8-8-8h-13.58c-4.74 0-9.37 1.4-13.31 4.03l-15.33 10.22a7.994 7.994 0 0 0-2.22 11.09l8.88 13.31a7.994 7.994 0 0 0 11.09 2.22l.47-.31V288h-16c-4.42 0-8 3.58-8 8v16c0 4.42 3.58 8 8 8h64c4.42 0 8-3.58 8-8v-16c0-4.42-3.58-8-8-8zM608 64H32C14.33 64 0 78.33 0 96v320c0 17.67 14.33 32 32 32h576c17.67 0 32-14.33 32-32V96c0-17.67-14.33-32-32-32zM48 400v-64c35.35 0 64 28.65 64 64H48zm0-224v-64h64c0 35.35-28.65 64-64 64zm272 192c-53.02 0-96-50.15-96-112 0-61.86 42.98-112 96-112s96 50.14 96 112c0 61.87-43 112-96 112zm272 32h-64c0-35.35 28.65-64 64-64v64zm0-224c-35.35 0-64-28.65-64-64h64v64z"></path></svg><!-- <i class="olive fas fa-money-bill-alt"></i> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail text-center">
+                                <p>Total Unpaid Payments</p>
+                                <span class="number" style="font-weight: bold;">$ {{totalpayment}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <hr>
+                        <div class="stats">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-4 mt-3">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail text-center">
+                                <p>Newest Supplier Added</p>
+                                <span style="font-weight: bold;">{{lastsupname}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <hr>
+                        <div class="stats">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>                
+
+    <div id="carbon-block" style="margin:30px auto"></div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="content">
+                    <div class="head">
+                        <h4 class="mb-0">Product Current Stock</h4>
+                        <p class="text-muted">All Product registered</p>
+                    </div>
+                    <div class="canvas-wrapper"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                        {{#if products}}
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Supply Cost</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each products}}
+                                        <tr>
+                                            <td>{{id}}</td>
+                                            <td>{{prodName}}</td>
+                                            <td>{{supplyCost}}</td>
+                                            <td>{{prodQuantity}}</td>
+                                        </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        {{else}}
+                            <h2>No products</h2>
+                        {{/if}}
+                    </div>
+                    <div class="ui hidden divider"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="icon-big text-center">
+                                <i class="fas fa-box"></i>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="detail text-center">
+                                <p>Total Current Rattan Stock</p>
+                                <span class="number" style="font-weight: bold;">{{stkboughttotals}} unit</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <hr>
+                        <div class="stats">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+#OfferTable, td, th {
+    border: 1px solid black
+}
+#OfferTable{
+    border-collapse: collapse;
+    background-color: white;
+    width: 100%;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+.head{
+    text-align: center;
+}
+svg:not(:root).svg-inline--fa {
+    overflow: visible;
+}
+.svg-inline--fa.fa-w-20 {
+    width: 1.25em;
+}
+.olive {
+    color: #b5cc18 !important;
+}
+.svg-inline--fa {
+    min-width: 15px;
+}
+.svg-inline--fa {
+    display: inline-block;
+    font-size: inherit;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -0.125em;
+}
+svg {
+    overflow: hidden;
+    vertical-align: middle;
+}
+.card .content .stats {
+    display: inline-block;
+    color: #a9a9a9;
+}
+.card .content .footer {
+    background-attachment: fixed;
+    position: relative;
+    padding: 0;
+    line-height: 30px;
+}
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#TabContentImg{
+    margin-left: 100px;
+    margin-top: 10px;
+    width:60%;
+}
+#MainHeader{
+	text-align: center;
+	text-decoration: underline;
+}
+#Sum{
+    text-align: center;
+}
+#TabMenu {
+    text-align: center;
+}
+#TabMenu button
+{
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#Tab1{
+    border-color: burlywood;
+    border-style: solid;
+    border-width:1px;
+    background-color: burlywood;
+    color: white;
+}
+#Tab2{
+    border-color: rgb(255, 220, 173);
+    border-style: solid;
+    border-width:1px;
+    background-color: rgb(255, 220, 173);
+    color: white;
+}
+#TabContent{
+    box-shadow: 0px 14px 28px 0px rgba(54, 54, 54, 0.2);
+    background-color: burlywood;
+    border-radius: 25px;
+    width:70%;
+    height:200px;
+    margin-left: 28%;
+}
+</style>

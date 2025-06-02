@@ -1,0 +1,246 @@
+<style>
+    .card {
+        /* Add shadows to create the "card" effect */
+        box-shadow: 0px 14px 28px 0px rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        border-radius: 15px;
+        width: 400px;
+        /* 5px rounded corners */
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+
+        var emptyStringPattern = /([^\s])/;
+        var valid_Text_Pattern = /^[-a-zA-Z0-9-()]+(\s+[-a-zA-Z0-9-()]+)*$/;
+
+        var discount_Code = false;
+
+        $("input[name='discountCode']").on('input', function () {
+            $("input[name='discountCode']").val($("input[name='discountCode']").val().toUpperCase());
+            if ($("input[name='discountCode']").val().length < 1 || !(emptyStringPattern.test($("input[name='discountCode']").val()))) {
+                discount_Code = false;
+                $("label[name='dC_Warning']").html('Please enter a value').css('visibility', 'visible');
+
+            } else if (valid_Text_Pattern.test($("input[name='discountCode']").val())) {
+                discount_Code = true;
+                $("label[name='dC_Warning']").html('Please enter a value').css('visibility', 'hidden');
+            }
+        });
+
+        var description = false;
+
+        $("textarea[name='description']").on('input', function () {
+            
+            if ($("textarea[name='description']").val().trim().length < 1 || !(emptyStringPattern.test($("textarea[name='description']").val().trim()))) {
+                description = false;
+                console.log(description);
+                $("label[name='description_Warning']").html('Please enter a description').css('visibility', 'visible');
+
+            } else {
+                if (valid_Text_Pattern.test($("textarea[name='description']").val().trim())) {
+                    description = true;
+                    
+                    $("label[name='description_Warning']").html('Please enter a description').css('visibility', 'hidden');
+                }
+            }
+        });
+
+
+        var discount_Percentage = false;
+
+        $("input[name='discountPercentage']").on('input', function () {
+            if ($(this).val().length > 0) {
+                console.log("MORE THAN 0 IN LENGTH");
+                console.log($(this).val());
+                if (!Number.isInteger(parseFloat($(this).val())) || parseFloat($(this).val()) < 1 || parseFloat($(this).val()) > 100) {
+                    console.log("NOT AN INTEGER")
+                    discount_Percentage = false;
+                    $("label[name='dP_Warning']").html('Please enter a valid positive integer').css('visibility', 'visible');
+
+                } else {
+                    console.log("IS AN INTEGER");
+                    discount_Percentage = true;
+                    $("input[name='discountPercentage']").val(parseInt($(this).val()));
+                    $("label[name='dP_Warning']").css('visibility', 'hidden');
+                }
+
+            } else {
+                discount_Percentage = false;
+                $("label[name='dP_Warning']").html('Please enter a value').css('visibility', 'visible');
+            }
+        });
+
+        var target_User = false;
+        $("select[name='target_Users']").on('change', function () {
+            if ($(this).find(":selected").text() === "Select target users") {
+                target_User = false;
+                $("label[name='tU_Warning']").css('visibility', 'visible');
+
+            } else {
+                target_User = true;
+                $("label[name='tU_Warning']").css('visibility', 'hidden');
+            }
+        });
+
+        $('#btn_Submit').click(function () {
+            event.preventDefault();
+
+            if (target_User && discount_Code && discount_Percentage && description) {
+
+                $.post("/promo/validateEntry",
+                    {
+                        'code': $("input[name='discountCode']").val()
+                    }, function (response) { // success handler
+                        if (Boolean(response['unique'])) {
+                            $('#discount_Form').submit();
+                        } else {
+                            discount_Code = true;
+                            $("label[name='dC_Warning']").html('This value already exists!').css('visibility', 'visible');
+                        }
+                    });
+
+            }
+            else {
+                if (!target_User) {
+                    $("label[name='tU_Warning']").css('visibility', 'visible');
+                }
+
+                if (!discount_Code) {
+                    $("label[name='dC_Warning']").css('visibility', 'visible');
+                }
+
+                if (!discount_Percentage) {
+                    $("label[name='dP_Warning']").css('visibility', 'visible');
+                }
+                
+                if(!description){
+                    $("label[name='description_Warning']").css('visibility', 'visible');
+                }
+            }
+        });
+
+    });
+</script>
+
+<section>
+
+    <div class="row pb-5 pt-5">
+        <div class="">
+            <h1 class="h1">New promotional code</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="col">
+                    <form id="discount_Form" method="POST" action="/promo/new_Entry">
+                        <div class="row">
+                            <!-- Input -->
+                            <div class="mb-2">
+                                <label class="h6 small d-block text-uppercase">
+                                    Promotional code value
+                                    <span class="text-danger">*</span>
+                                </label>
+
+                                <div class="input-group form">
+                                    <input class="form-control form__input" type="text" name="discountCode"
+                                        placeholder="Promotional Code" aria-label="Discount Code">
+                                </div>
+
+                                <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                    name="dC_Warning">
+                                    Please enter a value
+                                </label>
+
+                            </div>
+                            <!-- End Input -->
+
+                        </div>
+                        <div class="row">
+
+                            <!-- Input -->
+                            <div class="mb-2">
+                                <label class="h6 small d-block text-uppercase">
+                                    Discount Percentage (Integer)
+                                    <span class="text-danger">*</span>
+                                </label>
+
+                                <div class="input-group form">
+                                    <input class="form-control form__input" type="text" name="discountPercentage"
+                                        placeholder="Discount Percentage" aria-label="First name">
+                                </div>
+
+                                <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                    name="dP_Warning">
+                                    Please enter a value
+                                </label>
+
+                            </div>
+                            <!-- End Input -->
+
+                        </div>
+
+                        <div class="row">
+
+                            <!-- Input -->
+                            <div class="mb-2">
+                                <label class="h6 small d-block text-uppercase">
+                                    Description for customers
+                                    <span class="text-danger">*</span>
+                                </label>
+
+                                <div class="input-group form">
+                                    <textarea class="form-control form__input" rows="4" cols="50" name="description"
+                                        aria-label="description"></textarea>
+                                </div>
+
+                                <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                    name="description_Warning">
+                                    Please enter a description
+                                </label>
+
+                            </div>
+                            <!-- End Input -->
+
+                        </div>
+
+                        <div class="row">
+
+                            <!-- Input -->
+                            <div class="mb-2">
+                                <label class="h6 small d-block text-uppercase">
+                                    Target Users
+                                    <span class="text-danger">*</span>
+                                </label>
+
+                                <select class="custom-select" name="target_Users">
+                                    <option selected="">Select target users</option>
+                                    <option value="All">All Users</option>
+                                    <option value="New">New Users</option>
+                                </select>
+
+                                <label class="h6 small d-block text-danger" style="visibility: hidden;"
+                                    name="tU_Warning">
+                                    Please select an option
+                                </label>
+
+                            </div>
+                            <!-- End Input -->
+
+                        </div>
+
+                        <div class="row">
+                            <input type="submit" id="btn_Submit" class="btn btn-primary"
+                                value="Create new promotional code" style="width: 100%"
+                                onclick="event.preventDefault();">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div>
+            </div>
+
+</section>
